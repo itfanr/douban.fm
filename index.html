@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Douban.fm by turingou</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Douban.fm</h1>
+        <p>a tiny and smart cli player of douban.fm based on Node.js</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/turingou/douban.fm" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/turingou/douban.fm/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/turingou/douban.fm/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h2>
+<a name="-doubanfm-" class="anchor" href="#-doubanfm-"><span class="octicon octicon-link"></span></a><img src="http://ww3.sinaimg.cn/large/61ff0de3gw1e77q7mth9dj200z00z3ya.jpg" alt=""> douban.fm <img src="https://badge.fury.io/js/douban.fm.png" alt="">
+</h2>
+
+<p>简洁优雅的豆瓣电台命令行版，基于 Node.js</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/61ff0de3tw1ecf5t6a13jj20mk0egabu.jpg" alt="screenshot"></p>
+
+<h3>
+<a name="%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85" class="anchor" href="#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85"><span class="octicon octicon-link"></span></a>如何安装</h3>
+
+<pre><code>$ [sudo] npm install douban.fm -g
+</code></pre>
+
+<h3>
+<a name="%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>使用方法</h3>
+
+<h4>
+<a name="%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="octicon octicon-link"></span></a>使用命令行操作</h4>
+
+<p>开启你的命令行豆瓣电台</p>
+
+<pre><code>$ douban.fm
+</code></pre>
+
+<p>收听私人频道，账户密码、配置文件与歌曲将会保存在 <code>~/douban.fm</code> 目录</p>
+
+<pre><code>$ douban.fm -m [email@domain.com] [password] 
+</code></pre>
+
+<h4>
+<a name="%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8" class="anchor" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8"><span class="octicon octicon-link"></span></a>快捷键列表</h4>
+
+<p>在相应的命令行菜单中，按下以下快捷键：</p>
+
+<pre><code>[return]      - &gt;     播放另一个频道，或者重新播放当前频道 (PLAY)
+[backspace]   - &gt;     停止播放当前歌曲或频道 (DELETE)
+[n]           - &gt;     本频道列表的下一首歌曲 (NEXT)
+[l]           - &gt;     添加到红心列表或者删除红心 (LOVE)
+[g]           - &gt;     跳转到当前播放歌曲的专辑页面 (GOTO)
+[q]           - &gt;     退出豆瓣电台 (QUIT)
+</code></pre>
+
+<h4>
+<a name="%E8%8C%83%E4%BE%8B%E4%BB%A3%E7%A0%81" class="anchor" href="#%E8%8C%83%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="octicon octicon-link"></span></a>范例代码</h4>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">Fm</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'douban.fm'</span><span class="p">);</span>
+
+<span class="c1">// 授权</span>
+<span class="nx">Fm</span><span class="p">.</span><span class="nx">auth</span><span class="p">({</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">'xxx'</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">'xxx'</span>
+<span class="p">},</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">result</span><span class="p">){</span>
+    <span class="c1">// do sth with result token.</span>
+<span class="p">});</span>
+
+<span class="c1">// 获取频道</span>
+<span class="nx">Fm</span><span class="p">.</span><span class="nx">sdk</span><span class="p">.</span><span class="nx">list</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">list</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span>
+<span class="p">});</span>
+
+<span class="c1">// 或者歌曲列表</span>
+<span class="c1">// 这里有一份指导博客:</span>
+<span class="c1">// http://zonyitoo.github.io/blog/2013/01/22/doubanfmbo-fang-qi-kai-fa-shou-ji/</span>
+<span class="nx">Fm</span><span class="p">.</span><span class="nx">sdk</span><span class="p">.</span><span class="nx">channel</span><span class="p">({</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">'n'</span>
+<span class="p">},</span><span class="nx">user</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">songs</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">songs</span><span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-mocha" class="anchor" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-mocha"><span class="octicon octicon-link"></span></a>单元测试 (Mocha)</h3>
+
+<pre><code>$ git clone https://github.com/turingou/douban.fm.git
+$ cd douban.fm
+$ npm install 
+$ npm test
+</code></pre>
+
+<h3>
+<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h3>
+
+<ul>
+<li>0.0.9: format codes</li>
+<li>0.0.9: 添加退出电台快捷键</li>
+<li>0.0.8: 添加开源协议，更新说明</li>
+<li>0.0.8: bugs fixed , ship to 0.0.8 stable</li>
+<li>0.0.7: ship to 0.0.7</li>
+<li>0.0.7: bugs fixed</li>
+<li>0.0.7: code rewriting</li>
+<li>0.0.7: fixed label redraw</li>
+<li>0.0.7: code rewriting</li>
+<li>split module player</li>
+<li>0.0.7: 大规模重构</li>
+<li>update usage</li>
+<li>update readme</li>
+<li>add screenshot</li>
+<li>add logo</li>
+<li>ship to 0.0.4</li>
+<li>继续改界面，现在好看多啦~</li>
+<li>更新界面</li>
+<li>morning~</li>
+<li>更新说明文档</li>
+<li>实现播放功能</li>
+<li>新增界面</li>
+<li>hello doubanfm</li>
+</ul><h3>
+<a name="mit-license" class="anchor" href="#mit-license"><span class="octicon octicon-link"></span></a>MIT license</h3>
+
+<p>Copyright (c) 2013 turing <a href="mailto:i@guoyu.me">i@guoyu.me</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/turingou">turingou</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
