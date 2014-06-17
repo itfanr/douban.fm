@@ -1,156 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Douban.fm by turingou</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Douban.fm : a tiny and smart cli player of douban.fm based on Node.js" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Douban.fm</title>
   </head>
+
   <body>
 
-      <header>
-        <h1>Douban.fm</h1>
-        <p>a tiny and smart cli player of douban.fm based on Node.js</p>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/turingou/douban.fm">View on GitHub</a>
 
-      <div id="banner">
-        <span id="logo"></span>
+          <h1 id="project_title">Douban.fm</h1>
+          <h2 id="project_tagline">a tiny and smart cli player of douban.fm based on Node.js</h2>
 
-        <a href="https://github.com/turingou/douban.fm" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/turingou/douban.fm/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/turingou/douban.fm/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/turingou/douban.fm/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/turingou/douban.fm/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h2>
-<a name="-doubanfm-" class="anchor" href="#-doubanfm-"><span class="octicon octicon-link"></span></a><img src="http://ww3.sinaimg.cn/large/61ff0de3gw1e77q7mth9dj200z00z3ya.jpg" alt=""> douban.fm <img src="https://badge.fury.io/js/douban.fm.png" alt="">
+<a name="-doubanfm-" class="anchor" href="#-doubanfm-"><span class="octicon octicon-link"></span></a>
+<img src="http://ww3.sinaimg.cn/large/61ff0de3gw1e77q7mth9dj200z00z3ya.jpg" alt=""> douban.fm <img src="https://badge.fury.io/js/douban.fm.png" alt="">
 </h2>
 
-<p>简洁优雅的豆瓣电台命令行版，基于 Node.js</p>
+<p>简洁优雅的豆瓣电台命令行版，基于 Node.js。</p>
 
-<p><img src="http://ww1.sinaimg.cn/large/61ff0de3tw1ecf5t6a13jj20mk0egabu.jpg" alt="screenshot"></p>
+<p><img src="http://ww1.sinaimg.cn/large/61ff0de3tw1ecij3dq80bj20m40ez75u.jpg" alt="screenshot"></p>
 
 <h3>
+<a name="%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7" class="anchor" href="#%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7"><span class="octicon octicon-link"></span></a>功能特性</h3>
+
+<ul>
+<li>支持歌曲加心</li>
+<li>支持私人电台、红心电台</li>
+<li>支持离线播放本地电台</li>
+<li>支持 PRO 用户高码率歌曲</li>
+<li>支持滚动歌词显示</li>
+<li>支持部分 ID3 信息补全</li>
+</ul><h3>
 <a name="%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85" class="anchor" href="#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85"><span class="octicon octicon-link"></span></a>如何安装</h3>
+
+<p>从 NPM 中安装稳定的版本：</p>
 
 <pre><code>$ [sudo] npm install douban.fm -g
 </code></pre>
 
+<p>更推荐使用 <a href="http://cnpmjs.org/">cnpm</a> 镜像源加速安装</p>
+
+<pre><code>$ [sudo] npm install douban.fm -g \
+         --disturl=http://dist.u.qiniudn.com \
+         --registry=http://r.cnpmjs.org
+</code></pre>
+
+<p>从 Git 仓库中安装最新的开发版本：</p>
+
+<pre><code>$ [sudo] npm install git://github.com/turingou/douban.fm.git -g \
+         --disturl=http://dist.u.qiniudn.com \
+         --registry=http://r.cnpmjs.org
+</code></pre>
+
+<h3>
+<a name="%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96" class="anchor" href="#%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96"><span class="octicon octicon-link"></span></a>模块依赖</h3>
+
+<p>由于需要使用到 speaker 等模块，安装时需要编译文件，对安装环境有一定要求。
+推荐在 Mac OSX 下使用，在安装之前或安装遇到问题时，确保以下依赖状态正常：</p>
+
+<h4>
+<a name="linux--mac" class="anchor" href="#linux--mac"><span class="octicon octicon-link"></span></a>linux &amp; mac</h4>
+
+<ul>
+<li>安装了 python 2.x 并配置好环境变量</li>
+<li>安装了 node-gyp 编译工具</li>
+<li>安装了 xcode，或已安装 xcodebuild 工具和 command line tools 工具集</li>
+<li>曾经安装过 xcode 并已同意用户协议，确保更新 xcode 版本后同意过用户协议</li>
+<li>非 Mac OSX 用户需要检查 <code>node-speaker</code> 模块的外部依赖情况，详见 <a href="https://github.com/TooTallNate/node-speaker/#audio-backend-selection">node-speaker 文档</a>，按照你使用的操作系统安装相应外部依赖</li>
+<li>确保权限一致。如果没有使用 sudo 则尝试使用 sudo 安装</li>
+<li>各种 linux 发行版外部依赖问题，先确认是否安装了 libasound2，如果没有，尝试 <code>sudo apt-get install libasound2-dev</code>，fedora 下 <code>yum install alsa-lib-devel</code>
+</li>
+</ul><h4>
+<a name="windows" class="anchor" href="#windows"><span class="octicon octicon-link"></span></a>windows</h4>
+
+<ul>
+<li>最新版本的 <em>x86</em>  <a href="http://nodejs.org/download/">Node.js for Windows</a>,注意不要安装  <em>x64</em> 版本。</li>
+<li>安装 <a href="http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express">Visual C++ 2010 Express</a>。</li>
+<li>安装 <a href="http://www.python.org/download/">Python 2.7</a>, installed in the default location of <code>C:\Python27</code>。</li>
+</ul><p>安装的时候都用默认的下一步吧,保险起见再重启一下电脑,现在,你的windows系统就可以安装带有c++ addons的Node.js 模块了。</p>
+
+<p>如果遇到无法解决的问题，请到 <a href="https://github.com/turingou/douban.fm/issues">issue</a> 板块先检索是否有人遇到相同的错误，或者直接发帖求助。</p>
+
 <h3>
 <a name="%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>使用方法</h3>
 
-<h4>
-<a name="%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="octicon octicon-link"></span></a>使用命令行操作</h4>
-
-<p>开启你的命令行豆瓣电台</p>
+<p>开启你的命令行豆瓣电台：</p>
 
 <pre><code>$ douban.fm
 </code></pre>
 
-<p>收听私人频道，账户密码、配置文件与歌曲将会保存在 <code>~/douban.fm</code> 目录</p>
+<p>收听私人频道需要设置账户信息。账户信息、配置文件将会保存在 <code>~/.douban.fm.profile.json</code>（ &gt;= 0.1.2 版本后）
+歌曲将会默认保存在 <code>~/douban.fm</code> 目录下，当然你也可以通过配置自定义歌曲保存的目录。</p>
 
-<pre><code>$ douban.fm -m [email@domain.com] [password] 
+<p>使用配置向导，配置豆瓣电台账户信息、下载目录路径以及使用更多特性功能：</p>
+
+<pre><code>$ douban.fm config
 </code></pre>
 
-<h4>
-<a name="%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8" class="anchor" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8"><span class="octicon octicon-link"></span></a>快捷键列表</h4>
+<h3>
+<a name="%E8%8F%9C%E5%8D%95%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8" class="anchor" href="#%E8%8F%9C%E5%8D%95%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8"><span class="octicon octicon-link"></span></a>菜单快捷键列表</h3>
 
-<p>在相应的命令行菜单中，按下以下快捷键：</p>
+<p>在相应的命令行菜单中，按下以下快捷键，可以在收听豆瓣电台的过程中，标注自己喜欢的红心歌曲，
+跳转到专辑的介绍页面，或者分享这首歌曲到你的新浪微博。</p>
 
 <pre><code>[return]      - &gt;     播放另一个频道，或者重新播放当前频道 (PLAY)
 [backspace]   - &gt;     停止播放当前歌曲或频道 (DELETE)
 [n]           - &gt;     本频道列表的下一首歌曲 (NEXT)
 [l]           - &gt;     添加到红心列表或者删除红心 (LOVE)
+[s]           - &gt;     分享当前歌曲到新浪微博 (SHARE)
+[r]           - &gt;     开启或关闭歌词，默认关闭歌词显示 (LRC)
 [g]           - &gt;     跳转到当前播放歌曲的专辑页面 (GOTO)
 [q]           - &gt;     退出豆瓣电台 (QUIT)
 </code></pre>
 
-<h4>
-<a name="%E8%8C%83%E4%BE%8B%E4%BB%A3%E7%A0%81" class="anchor" href="#%E8%8C%83%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="octicon octicon-link"></span></a>范例代码</h4>
+<p>如果你忘了快捷键设置，可以打开配置向导，查看帮助菜单，或者：</p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">Fm</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'douban.fm'</span><span class="p">);</span>
-
-<span class="c1">// 授权</span>
-<span class="nx">Fm</span><span class="p">.</span><span class="nx">auth</span><span class="p">({</span>
-    <span class="nx">email</span><span class="o">:</span> <span class="s1">'xxx'</span><span class="p">,</span>
-    <span class="nx">password</span><span class="o">:</span> <span class="s1">'xxx'</span>
-<span class="p">},</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">result</span><span class="p">){</span>
-    <span class="c1">// do sth with result token.</span>
-<span class="p">});</span>
-
-<span class="c1">// 获取频道</span>
-<span class="nx">Fm</span><span class="p">.</span><span class="nx">sdk</span><span class="p">.</span><span class="nx">list</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">list</span><span class="p">){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span>
-<span class="p">});</span>
-
-<span class="c1">// 或者歌曲列表</span>
-<span class="c1">// 这里有一份指导博客:</span>
-<span class="c1">// http://zonyitoo.github.io/blog/2013/01/22/doubanfmbo-fang-qi-kai-fa-shou-ji/</span>
-<span class="nx">Fm</span><span class="p">.</span><span class="nx">sdk</span><span class="p">.</span><span class="nx">channel</span><span class="p">({</span>
-    <span class="nx">id</span><span class="o">:</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
-    <span class="nx">type</span><span class="o">:</span> <span class="s1">'n'</span>
-<span class="p">},</span><span class="nx">user</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">songs</span><span class="p">){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">songs</span><span class="p">)</span>
-<span class="p">});</span>
-</pre></div>
+<pre><code>$ douban.fm help
+</code></pre>
 
 <h3>
+<a name="%E6%94%AF%E6%8C%81-pro-%E7%94%A8%E6%88%B7%E9%AB%98%E7%A0%81%E7%8E%87%E9%9F%B3%E4%B9%90" class="anchor" href="#%E6%94%AF%E6%8C%81-pro-%E7%94%A8%E6%88%B7%E9%AB%98%E7%A0%81%E7%8E%87%E9%9F%B3%E4%B9%90"><span class="octicon octicon-link"></span></a>支持 Pro 用户高码率音乐</h3>
+
+<p>支持 pro 用户收听高码率 mp3，pro 用户默认会先寻找 192kbps 的歌曲播放，非 pro 用户不受影响。
+在同样的网络情况下，收听高码率的电台可能意味着加载资源的速度更慢，但是目前豆瓣电台命令行版还不支持随时自定义码率。</p>
+
+<h3>
+<a name="%E6%AD%8C%E8%AF%8D%E6%98%BE%E7%A4%BA" class="anchor" href="#%E6%AD%8C%E8%AF%8D%E6%98%BE%E7%A4%BA"><span class="octicon octicon-link"></span></a>歌词显示</h3>
+
+<p>豆瓣电台命令行版 <code>&gt;= 0.1.2</code> 版本支持显示歌词功能，这个功能尚在调试中，歌词可能无法与音乐精确匹配，歌词显示默认关闭，可以使用快捷键 <code>R</code> 开启，开启后在下一首歌曲播放时将会加载歌词。</p>
+
+<h3>
+<a name="%E6%9C%AC%E5%9C%B0%E7%94%B5%E5%8F%B0" class="anchor" href="#%E6%9C%AC%E5%9C%B0%E7%94%B5%E5%8F%B0"><span class="octicon octicon-link"></span></a>本地电台</h3>
+
+<p>豆瓣电台命令行版 <code>&gt;= 0.1.2</code> 版本支持本地电台功能，这意味着在离线情况下，或者网络不佳，通信失败的情况下，豆瓣电台命令行版会自动切换到本地电台进行播放，方便您在旅行时使用豆瓣电台。</p>
+
+<h3>
+<a name="id3-%E4%BF%A1%E6%81%AF%E8%A1%A5%E5%85%A8" class="anchor" href="#id3-%E4%BF%A1%E6%81%AF%E8%A1%A5%E5%85%A8"><span class="octicon octicon-link"></span></a>ID3 信息补全</h3>
+
+<p>豆瓣电台命令行版 <code>&gt;= 0.1.2</code> 版本支持本地 ID3 信息补全，方便用户同步到 iTunes 等播放软件。目前暂不支持为歌曲添加封面。此功能需要外部依赖 <code>ffmpeg</code> 使用前确保已经安装 <a href="http://www.ffmpeg.org/">ffmpeg command-line tool</a> 或 <a href="http://www.libav.org/avconv.html">libav fork</a> </p>
+
+<h3>
+<a name="%E8%8C%83%E4%BE%8B%E4%BB%A3%E7%A0%81" class="anchor" href="#%E8%8C%83%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="octicon octicon-link"></span></a>范例代码</h3>
+
+<p>豆瓣电台 SDK 已迁移到 <code>douban-sdk</code> 模块，请参考此<a href="https://github.com/turingou/douban-sdk">模块接口文档</a>使用，如需更多使用范例，可以参考本项目下的 <code>./libs/sdk.js</code> 文件。</p>
+
+<h3>
+<a name="%E8%87%B4%E8%B0%A2" class="anchor" href="#%E8%87%B4%E8%B0%A2"><span class="octicon octicon-link"></span></a>致谢</h3>
+
+<p>豆瓣电台命令行版作为一款开源命令行播放器，有你们的参与才能日趋完善：</p>
+
+<ul>
+<li>感谢 <a href="https://github.com/ZoomQuiet">ZoomQuiet</a> 不遗余力地试用和建议。</li>
+<li>感谢 <a href="https://github.com/zhuangya">zhuangya</a> 改良了配置账户的操作 <a href="https://github.com/turingou/douban.fm/pull/32">#32</a>
+</li>
+<li>感谢 <a href="https://github.com/anson0370">anson0370</a> 解决了退出后光标消失的 bug <a href="https://github.com/turingou/douban.fm/pull/53">#53</a>
+</li>
+<li>感谢 <a href="https://github.com/youxiachai">youxiachai</a> 增加了对 windows 的分享支持 <a href="https://github.com/turingou/douban.fm/pull/54">#54</a>
+</li>
+<li>感谢 <a href="https://github.com/buhe">buhe</a> 增加显示歌词的功能 <a href="https://github.com/turingou/douban.fm/pull/58">#58</a>
+</li>
+<li>感谢 <a href="https://github.com/JacksonTian">JacksonTian</a> 改善了 <code>player</code> 模块 <a href="https://github.com/turingou/player/pull/2">#2</a>
+</li>
+</ul><h3>
 <a name="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-mocha" class="anchor" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-mocha"><span class="octicon octicon-link"></span></a>单元测试 (Mocha)</h3>
 
 <pre><code>$ git clone https://github.com/turingou/douban.fm.git
 $ cd douban.fm
-$ npm install 
+$ npm install --disturl=http://dist.u.qiniudn.com --registry=http://r.cnpmjs.org
 $ npm test
 </code></pre>
 
 <h3>
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h3>
 
-<ul>
-<li>0.0.9: format codes</li>
-<li>0.0.9: 添加退出电台快捷键</li>
-<li>0.0.8: 添加开源协议，更新说明</li>
-<li>0.0.8: bugs fixed , ship to 0.0.8 stable</li>
-<li>0.0.7: ship to 0.0.7</li>
-<li>0.0.7: bugs fixed</li>
-<li>0.0.7: code rewriting</li>
-<li>0.0.7: fixed label redraw</li>
-<li>0.0.7: code rewriting</li>
-<li>split module player</li>
-<li>0.0.7: 大规模重构</li>
-<li>update usage</li>
-<li>update readme</li>
-<li>add screenshot</li>
-<li>add logo</li>
-<li>ship to 0.0.4</li>
-<li>继续改界面，现在好看多啦~</li>
-<li>更新界面</li>
-<li>morning~</li>
-<li>更新说明文档</li>
-<li>实现播放功能</li>
-<li>新增界面</li>
-<li>hello doubanfm</li>
-</ul><h3>
+<p>详见 <a href="./History.md">History.md</a></p>
+
+<h3>
 <a name="mit-license" class="anchor" href="#mit-license"><span class="octicon octicon-link"></span></a>MIT license</h3>
 
-<p>Copyright (c) 2013 turing <a href="mailto:i@guoyu.me">i@guoyu.me</a></p>
+<p>Copyright (c) 2013 turing &lt;<a href="mailto:i@guoyu.me">i@guoyu.me</a>&gt;</p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -169,13 +217,21 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.</p>
+
+<hr><p><img src="https://cdn1.iconfinder.com/data/icons/windows8_icons_iconpharm/26/doctor.png" alt="docor">
+built upon love by <a href="https://github.com/turingou/docor.git">docor</a> v0.1.2</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/turingou">turingou</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Douban.fm maintained by <a href="https://github.com/turingou">turingou</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
     
+
   </body>
 </html>
