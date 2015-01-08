@@ -36,36 +36,37 @@ function Fm() {
 
   // Resolve config files' path
   this.path = {};
-  this.path.profile = home.resolve('.douban.fm.profile.json');
-  this.path.history = home.resolve('.douban.fm.history.json');
+  this.path.profile = home.resolve('~/.douban.fm.profile.json');
+  this.path.history = home.resolve('~/.douban.fm.history.json');
 
   // Read configs from JSON files
   try {
     this.profile = fs.readJSON(this.path.profile);
   } catch (err) {
-    debug(err);
+    // Ingore missing profile
   }
 
   // Get music download folder as `this.home`
   this.home = this.profile ?
     this.profile.home :
-    home.resolve('douban.fm');
+    home.resolve('~/douban.fm');
 
   // Get favourite music download folder
   this.love = path.join(this.home, 'love');
 
-  // Get http_proxy options
+  // Get `http_proxy` options
   this.http_proxy = this.profile ?
     this.profile.http_proxy :
     null;
 
+  // Disable Lrc by default
   this.isShowLrc = false;
 
   // Update UI
   template.updateTab('Douban FM');
 
   // Ensure music download folder exists,
-  // If not, mkdir.
+  // If not, Mkdir of it.
   try {
     mkdirp.sync(this.love);
   } catch (err) {
@@ -88,17 +89,17 @@ Fm.prototype.createMenu = createMenu;
 
 /**
  * [Fetch songs and add them to playlist]
- * @param  {[type]}   channel  [description]
- * @param  {[type]}   account  [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * @param  {Object}   channel 
+ * @param  {Object}   account 
+ * @param  {Function}   callback
+ * @return {Object}           
  */
 function fetch(channel, account, callback) {
   var self = this;
 
   var query = {};
   query.kbps = 192;
-  query.history = self.rc.history;
+  query.history = self.path.history;
   query.channel = channel.channel_id;
   query.local = isChannel('local', channel.channel_id) ? self.home : false;
 
@@ -123,9 +124,9 @@ function fetch(channel, account, callback) {
 
 /**
  * [Playing songs when everything is ready]
- * @param  {[type]} channel [description]
- * @param  {[type]} account [description]
- * @return {[type]}         [description]
+ * @param  {Object} channel 
+ * @param  {Object} account 
+ * @return {}         
  */
 function play(channel, account) {
   var self = this;
@@ -137,7 +138,7 @@ function play(channel, account) {
   if (privateMhz)
     return menu.update('header', errors.account_missing);
 
-  // clear last label
+  // Clear last label
   if (self.status === 'fetching' || self.status === 'downloading')
     return;
 
@@ -149,24 +150,27 @@ function play(channel, account) {
     }
   }
 
-  // clear label status
+  // Clear label status
   menu.clear('header');
   self.channel = channel.index;
   self.status = 'fetching';
   menu.update(channel.index, template.listing());
 
   try {
-    fs.updateJSON(self.rc.profile, { lastChannel: channel });
+    fs.updateJSON(self.path.profile, { lastChannel: channel });
   } catch (err) {};
 
-  // start fetching songs
+  // Start fetching songs
   self.fetch(channel, account, function(err, songs, result) {
     if (err) {
       self.status = 'error';
       return menu.update(channel.index, color.red(err.toString()));
     }
-    // mark PRO account on logo
-    if (result && !result.warning) menu.update('header', color.inverse(' PRO '));
+
+    // Mark a `PRO` label on logo
+    if (result && !result.warning) 
+      menu.update('header', color.inverse(' PRO '));
+
     self.status = 'ready';
     self.player = new Player(songs, {
       src: 'url',
@@ -174,34 +178,42 @@ function play(channel, account) {
       downloads: self.home,
       http_proxy: self.http_proxy
     });
+
     self.player.play();
-    self.player.on('downloading', function(url) {
+    self.player.on('downloading', onDownloading);
+    self.player.on('playing', onPlaying);
+
+    function onDownloading(url) {
       self.status = 'downloading';
       menu.update(channel.index, template.loading());
-    });
-    // update template
-    self.player.on('playing', function(song) {
+    }
+
+    function onPlaying(song) {
       var isValidSong = song.title && song.sid;
       self.status = 'playing';
-      // update playing label
+      // Update playing label
       menu.update('header', color.green('>'));
-      // update song infomation
+      // Update song infomation
       menu.update(channel.index, template.song(song));
-      // logging songs history
+      // Logging songs history
       if (isValidSong) {
         var updates = {};
         updates[song.sid] = song;
         try {
-          fs.updateJSON(self.rc.history, updates);
+          fs.updateJSON(self.path.history, updates);
         } catch (err) {
-          // error must be logged in a private place.
+          // Errors must be logged in a private place.
         }
       }
 
-      // print LRC if needed.
+      // Print LRC if needed.
       if (self.isShowLrc) {
-        if (self.lrc) self.lrc.stop();
-        geci.fetch(song, function(err, lrc) {
+        if (self.lrc) 
+          self.lrc.stop();
+
+        geci.fetch(song, printLrc);
+
+        function printLrc(err, lrc) {
           if (err)
             return menu.update('header', color.grey(errors.lrc_notfound + err.toString()));
           if (!lrc)
@@ -210,23 +222,23 @@ function play(channel, account) {
           self.lrc = geci.print(lrc, function(line, extra) {
             menu.update(channel.index, template.song(song, line));
           });
-        });
+        }
       }
 
-      // 没有对尝试获取列表失败进行处理，如果失败2次，则不会再播放任何歌曲
+      // TODO: Still trying after failed two times.
       if (song._id < self.player.list.length - 1)
         return false;
 
       return self.fetch(channel, account);
-    });
+    }
   });
 }
 
 /**
 *
-* Add current song to lovelist when pressing `L`
-* @channel[Object]
-* @account[Object]
+* [Add current song to lovelist when pressing `L`]
+* @param channel {Object}
+* @param account {Object}
 *
 **/
 function loving(channel, account) {
@@ -264,7 +276,8 @@ function loving(channel, account) {
 
     return menu.update(
       self.channel,
-      template.song(self.player.playing, null, true) // keep silence, do not notify
+      // keep silence, do not notify
+      template.song(self.player.playing, null, true) 
     );
   });
 }
@@ -272,8 +285,8 @@ function loving(channel, account) {
 /**
 *
 * Play the next song in the playlist
-* @channel[Object]
-* @account[Object]
+* @param channel {Object}
+* @param account {Object}
 *
 **/
 function next(channel, account) {
@@ -290,8 +303,10 @@ function next(channel, account) {
 
 /**
 *
-* Stop playing
-* and show the stopped status on logo.
+* [Stop playing,]
+* [And show the stopped status on logo.]
+* @param channel {Object}
+* @param account {Object}
 *
 **/
 function stop(channel, account) {
@@ -310,8 +325,8 @@ function stop(channel, account) {
 
 /**
 *
-* Quit the Fm
-* and kill the process when pressing `Q`
+* [Quit the Fm,]
+* [And kill the process when pressing `Q`]
 *
 **/
 function quit() {
@@ -321,9 +336,9 @@ function quit() {
 
 /**
 *
-* Goto the music album page when pressing `G`
-* @channel[Object]
-* @account[Object]
+* [Goto the music album page when pressing `G`]
+* @param {Object} channel
+* @param {Object} account
 *
 **/
 function go(channel, account) {
@@ -341,9 +356,9 @@ function go(channel, account) {
 
 /**
 *
-* Show lrc when when pressing `R`.
-* @channel[Object]
-* @account[Object]
+* [Show lrc when when pressing `R`.]
+* @param channel {Object}
+* @param account {Object}
 *
 **/
 function showLrc(channel, account) {
@@ -359,9 +374,9 @@ function showLrc(channel, account) {
 
 /**
 *
-* Share the current playing songs to Weibo when pressing `S`.
-* @channel[Object]
-* @account[Object]
+* [Share the current playing songs to Weibo when pressing `S`.]
+* @param channel {Object}
+* @param account {Object}
 *
 **/
 function share(channel, account) {
@@ -375,32 +390,36 @@ function share(channel, account) {
 
 /**
 *
-* Create command line interface menu
-* using term-list-enhanced module
-* @callback[Function]: the callback function when set down.
+* [Create command line interface menu,]
+* [Using term-list-enhanced module]
+* @param {Function} callback [The callback function when all set done]
 *
 **/
 function createMenu(callback) {
   var self = this;
-  // fetch channels
+
+  // Fetch channels
   sdk.fm.channels(function(err, list) {
     if (err)
       consoler.error(errors.turn_to_local_mode);
 
-    // fetch configs, show user's infomations
-    fs.readJSON(self.rc.profile, function(e, user) {
+    // Fetch configs, Show user's infomation
+    fs.readJSON(self.path.profile, function(e, user) {
       var vaildAccount = user && user.account && user.account.user_name;
       var account = vaildAccount ? user.account : null;
 
-      // init menu
+      // Init menu
       self.menu = new termList();
       self.menu.header(template.logo(account));
-      var nav = [sdk.mhz.localMhz];
-      self.menu.adds(nav.concat(!err ? [sdk.mhz.privateMhz].concat(list) : []));
+      self.menu.adds(
+        [sdk.mhz.localMhz].concat(!err ? [sdk.mhz.privateMhz].concat(list) : [])
+      );
 
-      // bind keypress events
+      // Bind keypress events
       self.menu.on('keypress', function(key, index) {
-        if (!shorthands[key.name]) return false;
+        if (!shorthands[key.name]) 
+          return false;
+
         return self[shorthands[key.name]](self.menu.items[index], account);
       });
 
@@ -408,25 +427,28 @@ function createMenu(callback) {
         self.menu.stop();
       });
 
-      // check last played channel
+      // Check last played channel,
+      // If it existed, play this channel instantly.
       if (user && user.lastChannel) {
         self.play(user.lastChannel, account);
         self.menu.start(user.lastChannel.index);
         return false;
       }
 
-      // start menu at line 2 (below the logo text)
+      // Start menu at line 2,
+      // Which below the logo.
       self.menu.start(1);
     });
   });
-  // callback if necessary.
+
+  // Trigger callback if necessary.
   return callback && callback();
 }
 
 /**
 *
 * Init douban.fm command line interface.
-* @callback [Function]: the callback function when all set done
+* @param {Function} callback [The callback function when all set done]
 *
 **/
 function init(callback) {
@@ -447,9 +469,9 @@ function init(callback) {
 
 /**
  * [Check if a object is channel object]
- * @param  {[type]}  alias [description]
- * @param  {[type]}  id    [description]
- * @return {Boolean}       [description]
+ * @param  {String}  alias [The channel type]
+ * @param  {Int}     id    [The channel ID]
+ * @return {Boolean}
  */
 function isChannel(alias, id) {
   if (alias === 'local' && id == -99)
